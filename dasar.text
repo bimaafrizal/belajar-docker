@@ -1,0 +1,114 @@
+VM
+virtual machine bisa menginstall sistem operasi di vmnya
+ketika membuat vm akan lambat karena butuh waktu untuk menjalankannya ketika boot, resetnya juga lebih lama, ukurannya sangat besar
+
+hypervisor => vmware, virtual box(alat manajemen)
+
+
+container
+container fokus pada alikasinya, container manager berjalan di sistem operasi
++ kita bisa mempackage aplikasi dan dependency tanpa menggabungkan sistem operasi
++ container menggunakan sistem operasi bawaannya,
++ kecil ukurannya
+
+perbedaan dengan isntall langsung adalah setiap container akan terisolasi JADI TIDAK AKAN MENGGANGGU CONTAINER YANG LAIN, kita hanya perlu menginstal aplikasi dan dependencynya
+
+
+Docker
+Docker implementasi container manager
+
+Arsitektur Docker
+menggunakan client server, ketika install ada dua aplikasi yaitu client dan server, docker client berkomunikasi dengan docker daemon(server), wajib menjalankan server daemon
+bisa berjalan di satu sistem yang sama
+berjalan dengan menggunakan REST API
+
+client => menerima perintah kemudian mengirimkan ke server
+Docker daemon => menjalankan eksekusi
+Registry =>
+
+Docker Registry merupakan tempat menyimpan docker image
+Kita bisa menyimpan atau memakai image dari orang lain, docker image digunakan docker daemon selama bisa terkoneksi ke docker registry
+
+Dari host akan mendownload imagenya untuk disimpan di docker daemon. contoh docker registry
+docker hub, digital ocean container, google cloud
+
+Docker Image mirip installer aplikasi di dalamnya terdapat aplikasi dan dependency di dalamnya ada hanya ada aplikasi dan dependency
+docker image ls untuk melihat list image
+untuk mendownload image gunakan docker pull namaimage:tag jika tidak ada tag maka akan akan error
+tag digunakan untuk menandakan versi dari image
+
+untuk menghapus image gunakan docker image rm namaimage:tag
+
+docker container mirip aplikasi hasil installernya
+satu docker image bisa digunkan untuk membuat banyak container
+jika sudah buat docker container maka docker yang digunakan tidak bisa dihapus karena sebenarnya docker container tidak meng-copy isi docker image tapi hanya menggunakan isinya saja
+
+status container
+secara default container ketika baru dibuat tidak akan berjalan
+untuk menjalankan kira perlu menjalankannya
+untuk melihat semua container yang berjalan gunakan docker container ls
+untuk melihat semua container yang pernah dibuat gunakan docker container ls -a
+untuk membuat container gunakan :
+docker container create namacontainer namaimage:tag
+jika kita buat container yang belum kita download imagenya maka docker akan mendownload imagenya terlebih dahulu
+nama container tidak boleh sama
+
+cara menjalankan
+docker container start namacontainer
+jika menjalankan container dengan port yang sama tidak akan error karena sifatnya yang terisolasi
+
+cara menghentikan
+docker container stop namacontainer
+
+menghapus container
+harus menghentikan container terlebih dahulu
+
+container log
+digunakan untuk melihat detaik kejadian yang terjadi di container
+docker container logs namacontainer
+docker container logs -f namacontainer => realtime
+
+container exec
+digunakan untuk menjalankan program yang ada di dalam container, bisa juga untuk masuk
+docker container exec -i -t namacontainer /bin/bash
+-i => interactive, menjaga input tetap aktif
+-t => terminal, menjaga terminal
+
+
+container port
+=> port di containernya bukan di hostnya
+jika ingin mengakses aplikasi di containernya bisa gunakan port forwadding
+meneruskan port yang ada di hostnya ke dalam container
+cocok untuk mengekspos port yg terdapat di container ke luar melalui sistem hostnya
+dilakukan dengan cara ketika membuat container ditambahkan port forwadingnya
+docker container create --name namacontainer -p porthost:portcontainer namaimage:tag
+jika ingin melakukan port awarding lebih dari satu tambahkan dua kali parameter --publishnya
+docker container create --name namacontainer -p porthost:portcontainer -p porthost:portcontainer namaimage:tag
+
+container environment variable
+digunakan untuk menyimpan konfigurasi yang bisa diakses oleh aplikasi
+dalam container kita bisa mengirim env ke aplikasi yang terdapat di dalam container
+docker container create --name namacontainer -e key=value --env key="value"  namaimage:tag
+
+container stats
+untuk melihat statistik container
+docker container stats namacontainer
+
+resource limit
+secara default container bisa menggunakan semua resource yang ada di host
+jika terjadi kesalahan di container maka akan mengganggu container yang lain karena menggunakan resource yang sama lebih banyak
+gunakan --memory untuk membatasi penggunaan memory ketika membuat memory
+b(abyte), k(ilo), m(ega), g(iga)
+docker container create --name namacontainer --memory 512m namaimage:tag
+gunakan --cpus untuk menentukan jumlah cpu yang digunakan
+docker container create --name namacontainer --cpus 0.5 namaimage:tag
+
+Bind Mounts
+kemampuan melakukan sharing berupa file atau folder dari host ke container yang ada di docker
+digunakan untuk mengirim konfigurasi dari luar, atau menyimpan data yang dibuat di aplikasi dalam container ke dalam folde di sistem host
+--mount type=bind,source=lokasihost,target=lokasicontainer
+parameter type => bind atau volume
+source => lokasi folder di host
+target => lokasi folder di container
+readonly => jika ada maka folder di container tidak bisa diubah tapi bisa dibaca
+docker container create --name namacontainer --mount type=bind,source=/home/username/folderhost,target=/home/username/foldercontainer namaimage:tag
