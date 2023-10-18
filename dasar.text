@@ -11,7 +11,7 @@ container fokus pada alikasinya, container manager berjalan di sistem operasi
 + container menggunakan sistem operasi bawaannya,
 + kecil ukurannya
 
-perbedaan dengan isntall langsung adalah setiap container akan terisolasi JADI TIDAK AKAN MENGGANGGU CONTAINER YANG LAIN, kita hanya perlu menginstal aplikasi dan dependencynya
+perbedaan dengan install langsung adalah setiap container akan terisolasi JADI TIDAK AKAN MENGGANGGU CONTAINER YANG LAIN, kita hanya perlu menginstal aplikasi dan dependencynya
 
 
 Docker
@@ -77,12 +77,13 @@ docker container exec -i -t namacontainer /bin/bash
 
 container port
 => port di containernya bukan di hostnya
-jika ingin mengakses aplikasi di containernya bisa gunakan port forwadding
+jika ingin mengakses aplikasi di containernya bisa gunakan port forwadding tanpa masuk containernya
 meneruskan port yang ada di hostnya ke dalam container
 cocok untuk mengekspos port yg terdapat di container ke luar melalui sistem hostnya
 dilakukan dengan cara ketika membuat container ditambahkan port forwadingnya
 docker container create --name namacontainer -p porthost:portcontainer namaimage:tag
-jika ingin melakukan port awarding lebih dari satu tambahkan dua kali parameter --publishnya
+
+jika ingin melakukan port forwarding lebih dari satu tambahkan dua kali parameter --publishnya
 docker container create --name namacontainer -p porthost:portcontainer -p porthost:portcontainer namaimage:tag
 
 container environment variable
