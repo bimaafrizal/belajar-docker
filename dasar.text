@@ -113,3 +113,13 @@ source => lokasi folder di host
 target => lokasi folder di container
 readonly => jika ada maka folder di container tidak bisa diubah tapi bisa dibaca
 docker container create --name namacontainer --mount type=bind,source=/home/username/folderhost,target=/home/username/foldercontainer namaimage:tag
+untuk melihat lokasi menyimpan data lihat dokumentasi docker image cari where to store data
+port todak bolehsama
+
+Docker volume 
+Mirip mounts tapi terdapat management volume
+Volume bisa dianggap storage bedanya bind data disimpan pada sistem host, sedangkan pada volume data di manage oleh docker
+saat membuat container secara default data disimpan di dalam volume
+kita bisa gunakan docker volume ls untuk melihat volumekita bisa gunakan docker volume create namavolume
+untuk menghapus, harus hapus terlebih dahulu containernya kemudian ketikan
+docker volume rm namavolume
