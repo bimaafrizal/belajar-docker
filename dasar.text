@@ -123,3 +123,9 @@ saat membuat container secara default data disimpan di dalam volume
 kita bisa gunakan docker volume ls untuk melihat volumekita bisa gunakan docker volume create namavolume
 untuk menghapus, harus hapus terlebih dahulu containernya kemudian ketikan
 docker volume rm namavolume
+
+container volume
+volume yang sudah kita buat, bisa digunakan di container
+keuntungan menggunakan volume adalah jika container kita hapus, data akan tetap aman di volume
+cara menggunakannya sama seperti bind mount, tapi dengan menggunaan type volume dan source nama volume
+docker volume create mongodb
