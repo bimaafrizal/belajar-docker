@@ -129,3 +129,13 @@ volume yang sudah kita buat, bisa digunakan di container
 keuntungan menggunakan volume adalah jika container kita hapus, data akan tetap aman di volume
 cara menggunakannya sama seperti bind mount, tapi dengan menggunaan type volume dan source nama volume
 docker volume create mongodb
+
+
+backup volume
+gunakan container untuk melakukan backup
+- matikan container yang menggunakan volume yang ingin dibackup
+- Buat container dengan dua mount, volume yang ingi kita backup,dan bind mount folder dari sistem host
+- lakukan backup menggunakan container dengan meng archive isi volume dan simpan di bind mount folder
+- isi file backup sekarang ada di folder sistem host
+- delete container yang kita gunakan untuk melakukan backup
+untuk membackup secara langsung bisa gunakan run dan gunakan parameter --rm
