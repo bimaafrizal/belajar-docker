@@ -107,20 +107,20 @@ docker container create --name namacontainer --cpus 0.5 namaimage:tag
 Bind Mounts
 kemampuan melakukan sharing berupa file atau folder dari host ke container yang ada di docker
 digunakan untuk mengirim konfigurasi dari luar, atau menyimpan data yang dibuat di aplikasi dalam container ke dalam folde di sistem host
---mount type=bind,source=lokasihost,target=lokasicontainer
+--mount type=bind,source=lokasihost,destination=lokasicontainer
 parameter type => bind atau volume
 source => lokasi folder di host
-target => lokasi folder di container
+destination => lokasi folder di container
 readonly => jika ada maka folder di container tidak bisa diubah tapi bisa dibaca
-docker container create --name namacontainer --mount type=bind,source=/home/username/folderhost,target=/home/username/foldercontainer namaimage:tag
-untuk melihat lokasi menyimpan data lihat dokumentasi docker image cari where to store data
-port todak bolehsama
+docker container create --name namacontainer --mount type=bind,source=/home/username/folderhost,destination=/home/username/foldercontainer namaimage:tag
+untuk melihat lokasi menyimpan data di docker(destination) lihat dokumentasi docker image cari where to store data
+port host tidak boleh sama
 
 Docker volume 
-Mirip mounts tapi terdapat management volume
+Mirip mounts tapi terdapat management volume -> bisa create, read, dan delete volume
 Volume bisa dianggap storage bedanya bind data disimpan pada sistem host, sedangkan pada volume data di manage oleh docker
 saat membuat container secara default data disimpan di dalam volume
-kita bisa gunakan docker volume ls untuk melihat volumekita bisa gunakan docker volume create namavolume
+kita bisa gunakan docker volume ls untuk melihat volume kita bisa gunakan docker volume create namavolume
 untuk menghapus, harus hapus terlebih dahulu containernya kemudian ketikan
 docker volume rm namavolume
 
@@ -128,14 +128,32 @@ container volume
 volume yang sudah kita buat, bisa digunakan di container
 keuntungan menggunakan volume adalah jika container kita hapus, data akan tetap aman di volume
 cara menggunakannya sama seperti bind mount, tapi dengan menggunaan type volume dan source nama volume
-docker volume create mongodb
-
 
 backup volume
-gunakan container untuk melakukan backup
+gunakan container untuk melakukan backup volume ke dalam archive seperti zip atau tar.gz
 - matikan container yang menggunakan volume yang ingin dibackup
 - Buat container dengan dua mount, volume yang ingi kita backup,dan bind mount folder dari sistem host
 - lakukan backup menggunakan container dengan meng archive isi volume dan simpan di bind mount folder
 - isi file backup sekarang ada di folder sistem host
 - delete container yang kita gunakan untuk melakukan backup
 untuk membackup secara langsung bisa gunakan run dan gunakan parameter --rm
+
+
+restore volume
+1. buat volume baru
+2. buat container dengan 2 mount(volume & bind mount)
+3. lakukan restore menggunalam container dengan cara meng-extract isi backup file ke dalam volume
+4. isi file backup ke volume
+5. delete container yang digunakan untuk restore
+
+docker container
+untuk membuat jaringan di dalam docker untuk mengkoneksikan container dalam satu container
+mirip volume kita bisa management network
+kita perlu menentukan driver yang akan digunakan ->
+bridge -> membuat network secara virtual yang memungkinkan container terkoneksi di bridge network yang sama saling berkomunikasi
+host -> digunakan untuk membuat network yang sama dengan sistem host(hanya jalan di docker linux)
+none -> default, driver yang tidak bisa berkomunikasi
+untuk melihat network bisa gunakan docker network ls
+untuk membuat network dengan -> docker network create --driver namadriver namanetwork
+untuk menghapus network kita bisa gunakan docker network rm namanetwork
+tidak bisa dihapus jika sudah digunakan oleh container, kita harus menghapus containernya terlebih dahulu
