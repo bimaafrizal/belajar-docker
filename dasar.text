@@ -169,3 +169,5 @@ untuk menghapus  semua image -> docker image prune
 untuk menghapus semua network -> docker network prune
 untuk menghapus semua volume -> docker volume prune
 container, network, image -> docker system prune
+
+//coba
