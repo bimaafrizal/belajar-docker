@@ -157,3 +157,15 @@ untuk melihat network bisa gunakan docker network ls
 untuk membuat network dengan -> docker network create --driver namadriver namanetwork
 untuk menghapus network kita bisa gunakan docker network rm namanetwork
 tidak bisa dihapus jika sudah digunakan oleh container, kita harus menghapus containernya terlebih dahulu
+container yang terdapat di dalam network yang sama bisa saling berkomunikasi(tergantung jenis driver)
+untuk mengakses container lain bisa dengan menyebut hostname dari container yaitu nama containernya
+
+untuk melihat detail dari image, container, volume, dan network bisa menggunakan inspect
+docker image/container/volume/network inspect namaimage/container/volume/network
+
+untuk membersihkan secara otomatis baik image, container, volume, network yg tidak digunakan bisa menggunakan prune
+untuk menghapus semua container -> docker container prune
+untuk menghapus  semua image -> docker image prune
+untuk menghapus semua network -> docker network prune
+untuk menghapus semua volume -> docker volume prune
+container, network, image -> docker system prune
