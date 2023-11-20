@@ -1,0 +1,46 @@
+docker file adalah file text yang berisi semua perintah yg bisa digunakan untuk membuat docker image (tahapan2)
+untuk membuat docker image kita bisa menggunakan perintah docker build
+untuk membuat nama tagnya tambahkan perintah -t
+contoh docker build -t bima/app:1.0.0 folder-dockerfile
+contoh docker build -t bima/app:1.0.0 -t bima/app:latest folder-dockerfile
+dockerfile tidak memiliki extension, bisa dibuat dengan cara memberi nama DockerFile
+
+format untuk file dockerfile
+#komentar
+Instruction arguments
+
+instuction dalam docker cae insensitive tapi rekomendasinya upper case
+arguments adalah data argument untuk instuction yang menyesuaikan dengan jenis Insctuction yang digunakan
+
+//FROM Insctuction
+digunakan untuk tahapan awal untuk membuild stage dari image
+jarang kosongan tetapi biasanya kita membuat docker image dari docker image lain yang sudah ada
+untuk menggunakan from kita bisa menggunakan perintah FROM image:version
+untuk build docker build -t namaAkunDockerHub/namaImage:versi (atau tanpa versi jadi latest) namaFolder
+creatednya mengikuti image
+
+//run Instruction
+instruksi untuk mengeksekusi perintah di dalam image pada saat build, sekali saja ketika akan dibuild, ketika sudah menjadi image perintahtersebut tidak akan dijalankan lagi
+formatnya
+RUN command
+RUN ["executable","arguments",...]
+jika ingin menampilkan detail bisa gunakan perintah --progress=plain
+docker build melakukan cache(jika tidak ada perubahan pada file, maka akan run cachenya), jika ingin mengulangi lagi tanpa menggunakan cache, kita bisa gunakan perintah --no-cache
+dengan run maka waktu creatednya akan menyesuaikan pembuatan image
+
+//command instuction
+CMD(command) instruksi yang digunakan ketika docker container berjalan
+dalam docker file kita tidak bisa menambahkan lebih dari satu command, jika lebuh dari satu yang akan dijalankan adalah yang terakhir
+formatnya:
+CMD command param param
+CMD ["executable", "param", "param"]
+CMD ["param", "param"] dengan entry point 
+untuk melihat hasil run cmd bisa gunakan inspect
+
+//label instuction
+digunakan untuk menambahkan metadata ke dalam docker image yang kita buat
+metadata berisi informasi tambahan, misal nama aplikasi, pembuat, website,perusahaan,lisensi, dll
+hanya digunakan untuk informasi saja
+formatnya
+LABEL <key>=<value>
+LABEL <key>=<value> <key>=<value>
