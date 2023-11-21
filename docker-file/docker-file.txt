@@ -83,3 +83,12 @@ selain itu, env juga bisa diganti nilainya ketika pembuatan docker container den
 format
 ENV key=value
 ENV key=value key=value
+
+//volume
+merupakan instruksi yang digunakan untuk membuat volume secara otomatis ketika membuat Docker container
+semua file yg terdapat di volume secara otomatis di copy ke Docker Volume walaupun kita tidak membuat Docker Volume ketika membuat Docker container
+sangat cocok ketika aplikasi menyimpan data di dalam file, sehingga data bisa secara otomatis aman berada di Docker Volume
+Instruksi
+VOLUME /lokasi/folder
+VOLUME /lokasi/folder/lokasi/folder
+VOLUME {"/lokasi/folder", "/lokasi/folder"}

@@ -50,3 +50,11 @@ docker image inspect bimaafrizal/env
 docker container create --name env --env APP_PORT=9090 -p 9090:9090 bimaafrizal/env
 docker container start env
 docker container logs env
+
+# volume
+docker build -t bimaafrizal/volume volume
+docker image inspect bimaafrizal/volume
+docker container create --name volume -p 8080:8080 bimaafrizal/volume
+docker container start volume
+docker container logs volume
+docker container inspect volume
