@@ -20,7 +20,7 @@ untuk build docker build -t namaAkunDockerHub/namaImage:versi (atau tanpa versi 
 creatednya mengikuti image
 
 //run Instruction
-instruksi untuk mengeksekusi perintah di dalam image pada saat build, sekali saja ketika akan dibuild, ketika sudah menjadi image perintahtersebut tidak akan dijalankan lagi
+instruksi untuk mengeksekusi perintah di dalam image pada saat build, sekali saja ketika akan dibuild, ketika sudah menjadi image perintah tersebut tidak akan dijalankan lagi
 formatnya
 RUN command
 RUN ["executable","arguments",...]
@@ -44,3 +44,42 @@ hanya digunakan untuk informasi saja
 formatnya
 LABEL <key>=<value>
 LABEL <key>=<value> <key>=<value>
+
+//Add instuction
+Instruksi yang dapat digunakan untuk menambahkan file source ke dalam folder destination docker image
+Akan mendeteksi apakah source merupakan file kompres atau tidak, jika mendeteksi file source maka secara otomatis file tersebut akan diextreact dalam folder destination
+penambahan banyak file sekaligus di instruksi ADD menggunakan match Pattern golang /pkg.go.dev/path/filepath#Match
+format instuction:
+ADD source destination
+ADD world.txt hello (filenya sejajar dengan docker file jika penulisan seperti ini)
+ADD *.txt hello
+
+//Copy Instruction
+copy adalah instruksi yang dapat digunakan untuk menambahkan file dari source ke dalam folder destination
+perbedaan dengan add adalah copy hanya copy saja, kalau add bisa download source dari URL, jika menggunakan add akan otomatis extract pada file kompres
+pada best practice sebisa mungkin menggunakan COPY, jika memang butuh melakukan extract file kompres gunakan perintah RUN dan jalankan aplikasi untuk extract file kompres
+format:
+COPY source destination
+
+//Ignore
+saat melakukan add atau copy dari file source, docker akan membaca file bernama .dockerignore
+digunakan untuk menyebutkan file apa saja yang ingin kita Ignore
+artinya jika ada file yang kita sebut di dalam file .dockerignore secara otomatis file tersebut tidak akan di ADD atau di COPY
+bisa juga digunakan untuk ignore folder atau menggunakan regular expression
+
+//expose Instruction
+ekspose adalah insturksi untuk memberitahu container akan listen pada port pada nomor dan protocol tertentu
+tidak akan mempublish port, hanya digunakan sebagai dokumentasi untuk memberitahu yang membuat docker container bahwa docker image ini akan menggunakan port tertentu ketika dijalankan menjadi docker container
+format
+EXPOSE port(defaultnya menggunakan TCP)
+EXPOSE port/tcp
+EXPOSE port/udp
+
+//env 
+instruksi yang digunakan untuk mengubah environtment variable, baik ketika build  atau ketika dijalankan dalam docker container
+ENV yang sudah di definisikan di dalam Docker file bisa digunakan kembali dengan menggunakan sintaks ${nama_env}
+env yang gibuat menggunakan instruksi ENV disimpan di dalam Docker Image dan bisa dilihat menggunakan perintah docker image inspect
+selain itu, env juga bisa diganti nilainya ketika pembuatan docker container dengan perintah docker container cretae --env key=value
+format
+ENV key=value
+ENV key=value key=value
