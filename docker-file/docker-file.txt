@@ -9,7 +9,7 @@ format untuk file dockerfile
 #komentar
 Instruction arguments
 
-instuction dalam docker cae insensitive tapi rekomendasinya upper case
+instuction dalam docker case insensitive tapi rekomendasinya upper case
 arguments adalah data argument untuk instuction yang menyesuaikan dengan jenis Insctuction yang digunakan
 
 //FROM Insctuction
@@ -92,3 +92,66 @@ Instruksi
 VOLUME /lokasi/folder
 VOLUME /lokasi/folder/lokasi/folder
 VOLUME {"/lokasi/folder", "/lokasi/folder"}
+
+//work directory
+workdir adalah instruksi untuk menentukan direktori /folder untuk menjalankan instruksi RUN, CMD, ENTRYPOINT, COPY, ADD
+jika folder tidak ada maka akan dibuatkan secara otomatis, jika WORKDIR 
+jika lokasi WORKDIR adalah relativepath amaka secara otomatis dia akan masuk ke direktori dari WORKDIR sebelumnya
+workdir bisa digunakan sebagai path untuk lokasi pertama kali ketika kita masuk ke dalam Docker Container
+format:
+WORKDIR /app -> artinya working directorynya adalah /app
+WORKDIR docker -> sekarang akan ke /app/docker(relative path)
+WORKDIR /home/app -> sekarang working directorynya adalah /home/app
+
+
+//user
+instruksi yang digunakan untuk mengubah user atau user group ketika Docker Image dijalankan
+Secara default, Docker akan menggunakan user root namun pada beberapa kasus mungkin ada aplikasi yang tidak ingin jalan dalam user root, maka kita bisa mengubah usernya menggunakan insturksi USER
+format
+(buat usernya terlebih dahulu)
+USER <user>
+USER <user>:<group>
+
+// argument
+instruksi untuk mendefinisikan variable yang bisa digunakan oleh pengguna untuk dikirim ketika melakukan proses build menggunakan build perintah --build-arg key=value
+ARG hanya digunakan pada saat proses build time, artinya ketika berjalan dalam Docker Container, arg tidak akan digunakan, berbeda dengan ENV yang digunakan ketika berjalan dalam Docker Container
+cara mengakses variable dari ARG sama seperti mengakses variable dari ENV menggunakan ${variable_Arg}
+formatnya
+ARG key
+ARG key=defaultvalue
+program tidak berjalan karena arg hanya bisa diakses build time sedangkan CMD dijalankan pada saat runtime
+jika ingin menggunakan ARG pada CMD maka kita perlu memasukan data ARG ke ENV
+
+//health check
+healthcheck adalah instruksi yang digunakan untuk memberitahu Docker agar mengecek container apakah masih berjalan baik atau tidak
+jika terdapat healthcheck, secara otomatis container akan memiliki status health
+awal -> starting
+sukses -> healthy
+gagal -> unhealty
+format:
+HEALTHCHECK NONE -> tidak ada pengecekan(default)
+HEALTHCHECK [options] CMD command
+options: 
+--interval=DURATION(default:30s) -> seberapa sering -> contoh setiap 30 detik
+--timeout=DURATION(default:30s) -> batas waktu pengecekan
+--start-period=DURATION(default:0s) -> jeda pengecekan ketika nyala
+--retries=N(default:3) -> mau coba berapa kali
+
+//ENTRYPOINT
+instruksi untuk menentukan executable file yang akan dijalankan oleh container
+berkaitan dengan instruksi CMD
+saat membuat instruksi CMD tanpa executable file, secara otomatis CMD akan menggunakan ENTRYPOINT
+format:
+ENTRYPOINT ["executable", "param1", "param2"]
+ENTRYPOINT executable param1 param2
+saat menggunakan CMD ["param1", "param2"] maka param akan dikirinm ke ENTRYPOINT
+
+//multi stage
+saat membuat Dockerfile dari base yang besar secara otomatis ukuran Image akan menjadi besar juga
+oleh karena itu gunakan base image yang memang dibutuhkan saja, jangan terlalu banyak menginstall fitur di Image padahal tidak digunakan
+contoh solusi dengan image size besar ->
+sebenarnya golang memiliki fitur untuk melakukan kompilasi kode program Go-Lang menjadi binary file, sehingga tidak membutuhkan Image Go-Lang lagi
+kita bisa melakukan proses kompilasi di laptop kita, lalu file binary yang kita simpan di image dan cukup gunakan linux alpine misal
+namun pada golang direkomendasikan melakukan kompilasi file binary di sistem operasi yang sama jika mau dijalankan di di mac maka dicompile di mac juga
+Multi stage build -> kita bisa membuat beberapa Build Stage atau tahapan build\setiap instruksi FROM artinya adalah build stage
+Build stage terakhir adalah yang akan dijadikan sebagai image -> memanfaatkan docker build stage untuk melakukan proses kompilasi kode program

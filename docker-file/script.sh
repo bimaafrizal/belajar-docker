@@ -58,3 +58,42 @@ docker container create --name volume -p 8080:8080 bimaafrizal/volume
 docker container start volume
 docker container logs volume
 docker container inspect volume
+
+# workdir
+docker build -t bimaafrizal/workdir workdir
+docker container create --name workdir -p 8080:8080 bimaafrizal/workdir
+docker container start workdir
+docker container exec -i -t workdir /bin/sh
+#run pwd
+
+# user
+docker build -t bimaafrizal/user user
+docker container create --name user -p 8080:8080 bimaafrizal/user
+docker container start user
+docker container exec -i -t user /bin/sh
+#run whoami
+
+# arg
+docker build -t bimaafrizal/arg arg --build-arg app=bimaaa
+docker container create --name arg -p 8080:8080 bimaafrizal/arg
+docker container start arg
+docker container exec -i -t arg /bin/sh
+docker container logs arg
+docker image inspect bimaafrizal/arg
+
+# health
+docker build -t bimaafrizal/health health
+docker container create --name health -p 8080:8080 bimaafrizal/health
+docker container start health
+docker container ls
+docker container inspect health
+
+# entry point
+docker build -t bimaafrizal/entrypoint entrypoint
+docker container create --name entrypoint -p 8080:8080 bimaafrizal/entrypoint
+docker container start entrypoint
+
+# multi stage
+docker build -t bimaafrizal/multistage multistage
+docker container create --name multistage -p 8080:8080 bimaafrizal/multistage
+docker container start multistage
