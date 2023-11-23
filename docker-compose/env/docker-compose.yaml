@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  mongodb-env:
+    image: mongo:latest
+    container_name: mongodb-env
+    ports:
+      - 27019:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin

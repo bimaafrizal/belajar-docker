@@ -1,0 +1,73 @@
+tool untuk mendefinisikan dan menjalankan multiple Docker Container secara sekaligus
+menggunakan file YAML untuk melakukan konfigurasi Docker Container
+docker container akan menjalankan sekaligus dari file konfigurasi
+fitur docker compose ->
+memiliki multiple isolated environtmentdalam satu docker host/server atau dibilang project. Hal ini memungkinkan kita bisa membuat banyak jenis environment untuk Docker Compose.
+secara defaultnama project akan menggunakan nama folder konfigurasi
+hanya membuat container yang berubah
+
+kapan menggunakan docker compose?
+- Ketika develop aplikasi dengan tool yang berbeda2
+- Ketika membuat automation testing, untuk otomatisasi proses setupnya
+- Deployment. Docker Compose bisa digunakanuntuk deployment aplikasi, jadi tidak perlu lakukan start manual aplikasi di server, cukup jalankan menggunakan Docker Compose
+
+cara menginstall?
+sudah terinstall
+bisa gunakan docker compose
+
+configuration file
+docker compose konfigurasinta dalam bentuk YAML
+mirip dengan json tapi lebih sederhana
+nama konfigurasi disimpan dalam file bernama docker-compose.yaml
+nama project secara default akan menggunakan nama folder lokasi docker-compose.yaml berada
+
+//yaml
+mirip json tapi tidak menggunakan kurung kurawal
+key:value
+json to yaml
+json2yaml
+
+//container
+tambahkan container pada services
+namna key harus unique
+sebaiknya key dengan container name sama
+untuk membuat konfigurasi file, container tidak langsung jadi, kita harus menggunakan docker compose dengan perintah 
+docker compose create
+
+//menjalankan container
+untuk menjalankan container gunakan perintah docker compose start
+
+//melihat container
+jika ingin melihat status container yang hanya terdapat di konfigurasi file docker compose, kita bisa gunakan
+docker compose ps
+
+//mengentikan container
+docker compose stop
+
+//menghapus container
+docker compose down -> secara otomatis semua container, network, volume akan dihapus
+jika container masih berjalan, maka container akan distop terlebih dahulu
+
+//project
+secara default nama projectnya adalah nama folder lokasi file docker-compose.yaml
+untuk melihat daftar project yang sedang berjalan, kita bisa gunakan perintah
+docker compose ls
+
+//services
+dalam konfigurasi Docker compose, container disimpan dalam konfigurasi bernama servicea
+kita bisa menambahkan satu atau lebih services dalam konfigurasi filenya
+untuk melihat pengaturan dapat dilihat di dokumentasi docker service docker
+
+//komentar
+bisa menggunakan #
+
+//port 
+kita busa mengekspose port di container menggunakan port forwadding
+gunakan attribute ports 
+attribute ports berisi array object port
+short syntax -> HOST:CONTAINER contoh "8080:80" artinya port 8080 di host akan difordward ke port 80 di container
+long syntax -> target(port di dalam container), published(port yang digunakan di host), protocol(protocol port tcp/udp), mode -> host untuk port di tiap Node atau ingress untuk swarm mode. karena tidak menggunakan docker swarm, jadi kita cukup gunakan nilai host
+
+//environment variable
+kita bisa menggunakan configurasi file Docker Compose, kita bisa tambahkan env dengan menggunakanattribute environment
+gunakan environment:

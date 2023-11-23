@@ -155,3 +155,16 @@ kita bisa melakukan proses kompilasi di laptop kita, lalu file binary yang kita 
 namun pada golang direkomendasikan melakukan kompilasi file binary di sistem operasi yang sama jika mau dijalankan di di mac maka dicompile di mac juga
 Multi stage build -> kita bisa membuat beberapa Build Stage atau tahapan build\setiap instruksi FROM artinya adalah build stage
 Build stage terakhir adalah yang akan dijadikan sebagai image -> memanfaatkan docker build stage untuk melakukan proses kompilasi kode program
+
+//docker hub registry
+setelah membuat image, kita bisa mengupload ke Docker Registry
+bisa ke hub.docker.com
+perlu access token -> profile setting -> security
+copy access token
+yang bisa dipush adalah yang depannya username contoh bimaafrizal/multistage
+docker push namaimage:versi
+
+// digital ocean container registry
+-> cloud provider yang populer dan memiliki fitur docker registry
+menggunakan docker config untuk mengirim image ke digital ocean
+cukup gunakan config file

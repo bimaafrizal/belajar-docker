@@ -97,3 +97,8 @@ docker container start entrypoint
 docker build -t bimaafrizal/multistage multistage
 docker container create --name multistage -p 8080:8080 bimaafrizal/multistage
 docker container start multistage
+
+# dockerhub
+docker login -u bimaafrizal
+# input access token
+docker push bimaafrizal/multistage

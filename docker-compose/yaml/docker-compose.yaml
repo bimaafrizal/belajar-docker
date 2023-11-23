@@ -1,0 +1,22 @@
+version: '3.8'
+
+firstName: Bima
+lastName: Afrizal
+# array
+hobbies:
+  - Coding
+  - Gaming
+# object
+address:
+  street: Jl. Raya Cipadung
+  city: Bandung
+  province: Jawa Barat
+  postCode: '40614'
+# array object
+skills:
+  - name: PHP
+    level: Advanced
+  - name: Javascript
+    level: Advanced
+  - name: Python
+    level: Beginner
