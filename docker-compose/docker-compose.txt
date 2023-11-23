@@ -70,4 +70,32 @@ long syntax -> target(port di dalam container), published(port yang digunakan di
 
 //environment variable
 kita bisa menggunakan configurasi file Docker Compose, kita bisa tambahkan env dengan menggunakanattribute environment
-gunakan environment:
+gunakan 
+environment:
+    key: value
+
+//bind mounth
+kita bisa gunakan attribute volumes di services
+bisa tambahkan lebih dari satu
+short syntax -> source:target:mode,
+source->lokasi di host
+target->lokasi di container
+mode-> ro(read only) & rw(read write defaultnya)
+source buisa menggunakan relative path dengan diawali .(titik), arau absolute path
+long syntax
+volumes
+type -> tipe mounth, volume atau bind
+source-> sumber
+target-> lokasi di container
+read_only:true/false defaultnya false
+
+//volume
+bisa menggunakan attribute volumes
+tambahkan container dahulu sebelum menambahkan volume
+short syntax -> source ganti dengan nama volume
+long syntax -> type menjadi volume source menjadi nama volume
+volume tidak akan dihapus, untuk menghapus volume bisa dengan manual docker volume ls
+
+//network
+saat membuat container dengan docker compose, secara default semua container akan dihubungkan dalam sebuah network bernama nama-project_default
+jadi sebenarnya tidak perlu membuat network secara manual

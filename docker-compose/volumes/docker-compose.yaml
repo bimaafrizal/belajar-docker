@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  mongo-volumes:
+    image: mongo:latest
+    container_name: mongo-volumes
+    ports:
+      - 27019:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - "volume-data1:/data/db"
+  mongo-volumes2:
+    image: mongo:latest
+    container_name: mongo-volumes2
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - type: volume
+        source: volumes-data2
+        target: /data/db
+        read_only: false
+
+volumes:
+  volume-data1:
+    name: volume-data1
+  volumes-data2:
+    name: volumes-data2

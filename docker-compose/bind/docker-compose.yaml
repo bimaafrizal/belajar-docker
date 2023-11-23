@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  mongodb-bind:
+    image: mongo:latest
+    container_name: mongodb-bind
+    ports:
+      - 27019:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - "./data:/data/db"
+  mongodb-bind2:
+    image: mongo:latest
+    container_name: mongodb-bind2
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - type: bind
+        source: ./data2
+        target: /data/db
+        read_only: false
