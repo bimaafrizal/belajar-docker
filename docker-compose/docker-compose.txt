@@ -99,3 +99,59 @@ volume tidak akan dihapus, untuk menghapus volume bisa dengan manual docker volu
 //network
 saat membuat container dengan docker compose, secara default semua container akan dihubungkan dalam sebuah network bernama nama-project_default
 jadi sebenarnya tidak perlu membuat network secara manual
+jika ingin membuat network sendiri bisa menggunakan attribute networks dimana kita pelu tentukan
+nama: Nama network
+driver: driver network seperti bridge, host atau none\
+bisa membuat lebih dari satu networks
+
+// depends on
+secara default docker compose akan menjalankan semua container secara bersamaan tanpa urutan pasti
+untuk membuat urutuan gunakan attribute depends on
+
+// restart
+secara default saat containe mati docker tidak akan menjalankan lagi containernya
+agar bisa memaksa sebuah container untuk selalu melakukan restart misal terjadi masalah pada container kita bisa gunakan attribute restart dengan beberapa value:
+no -> tidak pernah restart(default)
+always -> selalu restart jika container berhenti
+on-failure: restart jika container error dengan indikasi error ketika exit
+unless-stopped -> selalu restart, kecuali dihentikan manual
+untuk melihat kejadian docker secara realtime bisa gunakan docker events
+docker events --filter 'container=nama'
+
+//resource limit
+bisa menggunakan attribute deploy lalu didalamnya menggunakan attribute resources
+kita bisa tentukan limit dan reservations
+reservations adlaah resource yang dijamin bisa digunakan oleh container
+limit adalah batas maksimal untuk resource yang diberikan ke container, namun limit bisa rebutan dengan container lain
+
+//dockerfile
+kita bisa membuat container dari Dockefile yang kita buat
+ketika ingin membuat container dari Dockerfile, kita tidak menggunakan attribute umage lagi di servicenya
+kita harus menggunakan attribute buld dimana terdapat attribute
+context -> berisi path ke file Dockerfile
+dockerfile: nama file Dockerfile(bisa diganti)
+args -> argumment yang dibutuhkan ketika melakukan docker build
+secara default Docker Compose akan membuat Image dengan nama random ketika melakukan build Dockerfile
+jika ingin menentukan nama tambahkan attribute image pada service secata otomatis Docker Compose
+ketika menggunakan perintah docker compose start secara otomatis Docker Compose akan melakukan build terlebih dahulu jika image belum dibuat
+jika ingin melakukan build image saja gunakan docker compose build
+untuk menghapus image harus dengan manual
+ketika merubah kode program lau stop dan start ulang menggunakan compose, bukan berarti kode program terbaru akan berjalan
+hal ini karena image versi baru otomatis terbuat, sehingga jika kita ingin menggunakan Image versi baru, kita harus hapus dulu Containernya lalu niat ulang dengan Image baru
+
+//health check
+secara default akan selalu menggunakan health check, namun jika ingin merubah health check bisa merubah konfigurasinya
+test-> cara melakukan health check
+--interval=DURATION(default:30s) -> seberapa sering -> contoh setiap 30 detik
+--timeout=DURATION(default:30s) -> batas waktu pengecekan
+--start-period=DURATION(default:0s) -> jeda pengecekan ketika nyala
+--retries=N(default:3) -> mau coba berapa kali
+
+//extend service
+untuk menjalankan aplikasi ke beberapa server misal di local, dev, dan prod kadang konfigurasinya berbeda
+agar tidak membuat banyak file konfigurasi gunakan extend service diaman kita bisa melakukan merge nenerapa file konfigurasi
+dengan begitu, kita dapat membuat konfigurasi umum, dan spesial untuk setiap jenis environtment
+saat menjalankan docker compose, bisa gunakan perintah -f namafile.yaml jika ingin menggunakan file yang bukan docker-compose.yaml
+buat file compose lain untuk dev dan prode dimana isinya hanya tambahan saja
+untuk menjalankan
+docker compose -f docker-compose.yaml -f dev.yaml create

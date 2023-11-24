@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongodb-network:
+    image: mongo:latest
+    container_name: mongodb-network
+    ports:
+      - 27019:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    networks:
+      - network_example
+
+networks:
+  network_example:
+    name: network_example
+    driver: bridge

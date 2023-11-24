@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  mongodb-restart:
+    image: mongo:latest
+    container_name: mongodb-restart
+    ports:
+      - 27019:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    networks:
+      - network_restart
+  
+  mongodb-express-example2:
+    image: mongo-express:latest
+    restart: always
+    container_name: mongo-express-example2
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: bimaafrizal
+      ME_CONFIG_MONGODB_ADMINPASSWORD: bimaafrizal
+      ME_CONFIG_MONGODB_SERVER: mongodb-restart
+    networks:
+      - network_restart
+    depends_on:
+      - mongodb-restart
+
+networks:
+  network_restart:
+    name: network_restart
+    driver: bridge

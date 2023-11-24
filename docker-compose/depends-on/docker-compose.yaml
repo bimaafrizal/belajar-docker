@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mongodb-depends:
+    image: mongo:latest
+    container_name: mongodb-depends
+    ports:
+      - 27019:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bimaafrizal
+      MONGO_INITDB_ROOT_PASSWORD: bimaafrizal
+      MONGO_INITDB_DATABASE: admin
+    networks:
+      - network_depend
+  
+  mongodb-express-example:
+    image: mongo-express:latest
+    container_name: mongo-express-example
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: bimaafrizal
+      ME_CONFIG_MONGODB_ADMINPASSWORD: bimaafrizal
+      ME_CONFIG_MONGODB_SERVER: mongodb-depends
+    networks:
+      - network_depend
+    depends_on:
+      - mongodb-depends
+
+networks:
+  network_depend:
+    name: network_depend
+    driver: bridge
